@@ -184,3 +184,19 @@ Thats all that is required.  Upon startup, MCP servers will start up and serve c
 - [Claude Code API Applied to other IDEs](https://github.com/anthropics/claude-code/issues/1234)
 - [Windsurf Flow Awareness](https://windsurf.com/blog/windsurf-wave-9-swe-1)
 - [The Hidden Algorithms Powering Your Coding Assistant](https://diamantai.substack.com/p/the-hidden-algorithms-powering-your?utm_campaign=post)
+
+### Committers Setup
+
+- Use and Eclipse package with PDE and Git.  I use [Eclipse J2EE package](https://www.eclipse.org/downloads/packages/release/2025-09/r/eclipse-ide-enterprise-java-and-web-developers)
+- Add git repo to Git Repositories view
+- Import all projects into workspace
+- In Preference page Plug-in Development / Target Platform:
+  - Select or add the target platform you want to work with
+  - Hit Edit button for the target platform
+  - In the "Edit Target Definition" dialog, hit Add…
+  - Select "Target File" in the Add Content dialog and continue
+  - In the Location: field enter: file:///${workspace_loc:/eclipse-mcp}/target-platforms/latest.target
+  - Finish changes and apply and close the changes
+- Create a new Run Configuration of type Eclipse Application and Run it.
+select "Eclipse Agent config targeting current stable Eclipse release"
+ 
