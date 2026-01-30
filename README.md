@@ -84,6 +84,8 @@ This feature runs a Model Context Protocol server within the Eclipse IDE VM enab
 
 ## Installation
 
+### As an external feature
+
 - Download a recent version of [Eclipse J2EE package](https://www.eclipse.org/downloads/packages/release/2025-09/r/eclipse-ide-enterprise-java-and-web-developers) that has this plugins dependencies built-in.
 - Download the [Eclipse Agents plugin](https://ibm.box.com/s/vxr2pcnlxd2jb4cq8yqxu1kicqvqhu9h) and unzip it
 - From Eclipse navigate to Help > Install New Software...
@@ -93,6 +95,19 @@ This feature runs a Model Context Protocol server within the Eclipse IDE VM enab
 - Click "Next" until "Finish"
 - Click "OK" to the security warning and allow the patch to install
 - When prompted to restart, click "Yes"
+
+### Running from the source code
+
+- Clone this repository
+- Import the projects in it to your Eclipse IDE
+- Go to `Preferences > Plug-in Development > Target Platform`
+- Make sure that `Running platform` is set to be **Active** and click `Edit... > Add... Target File`
+- Add the URI to the file **target-platforms/latest.target** e.g. `file:/Users/youruser/git/eclipse-agents/target-platforms/latest.target`
+- Create a new _Run Configuration_ of type **Eclipse Application** and select `Run an application: org.eclipse.ui.ide.workbench`
+- Go to the `Plug-ins` tab, select `Launch with: Plug-ins selected below`, click `Deselect all`, select `org.eclipse.agents` and click `Select Required`
+- Click `Run`
+
+## Usage
 
 ### To connect the built-in MCP server to an external MCP client
 
