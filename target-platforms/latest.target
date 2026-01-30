@@ -16,6 +16,7 @@
 			<unit id="org.eclipse.core.resources" version="0.0.0"/>
 			<unit id="org.eclipse.ui.console" version="0.0.0"/>
 			<unit id="org.eclipse.ui.ide" version="0.0.0"/>
+			<unit id="org.eclipse.ui.ide.application" version="0.0.0"/>
 			<unit id="org.eclipse.jface.text" version="0.0.0"/>
 			<unit id="org.eclipse.ui.workbench.texteditor" version="0.0.0"/>
 			<unit id="org.eclipse.compare" version="0.0.0"/>
