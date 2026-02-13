@@ -18,11 +18,19 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.agents.contexts.ExtensionManager;
 import org.eclipse.agents.contexts.Images;
 import org.eclipse.agents.contexts.ServerManager;
+import org.eclipse.agents.contexts.jdt.ActiveEditorJavaIntrospector;
+import org.eclipse.agents.contexts.util.JsonUtil;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.InstanceScope;
@@ -83,6 +91,21 @@ public class Activator extends AbstractUIPlugin {
 		} else {
 			
 		}
+		
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(r -> {
+			Thread thread = new Thread(r);
+			thread.setName("Fede's thread");
+			return thread;
+		});
+		
+		service.scheduleAtFixedRate(() -> {
+			AtomicReference<Map<String, Object>> mapRef = new AtomicReference<>();
+			Display.getDefault().syncExec(() -> {
+				mapRef.set(ActiveEditorJavaIntrospector.snapshotActiveEditor());
+			});
+			String json = JsonUtil.toPrettyJson(mapRef.get());
+			System.out.println(json);
+		}, 500, 5_000, TimeUnit.MILLISECONDS);
 	}
 
 	@Override
