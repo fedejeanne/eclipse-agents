@@ -5,17 +5,41 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.agents.contexts.platform.resource.EditorAdapter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.Adapters;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
+import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
+import org.eclipse.jdt.core.dom.EnumDeclaration;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.Javadoc;
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.ui.*;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
+import org.springaicommunity.mcp.annotation.McpTool;
 
 /**
  * End-to-end: active editor -> (unsaved) document text -> JDT AST -> structured data (JSON-like map).
@@ -31,13 +55,17 @@ import org.eclipse.ui.texteditor.ITextEditor;
  */
 public final class ActiveEditorJavaIntrospector {
 
-  private ActiveEditorJavaIntrospector() {}
+  public ActiveEditorJavaIntrospector() {}
 
   // ---------- Public API ----------
 
+  @McpTool(name = "snapshotActiveEditor", 
+		  description = "Get a snapshot of the active editor", 
+		  annotations = @McpTool.McpAnnotations(
+				  title = "Take a snapshot of the active editor"))
   /** Return a Map that is easy to serialize as JSON (e.g., by your MCP framework). */
-  public static Map<String, Object> snapshotActiveEditor() {
-    IEditorPart editor = getActiveEditor();
+  public Map<String, Object> snapshotActiveEditor() {
+    IEditorPart editor = EditorAdapter.getActiveEditor();
     if (editor == null) {
       return error("No active editor.");
     }

@@ -16,6 +16,7 @@ package org.eclipse.agents.contexts.platform;
 import org.eclipse.agents.IFactoryProvider;
 import org.eclipse.agents.IMCPServices;
 import org.eclipse.agents.contexts.adapters.IResourceTemplate;
+import org.eclipse.agents.contexts.jdt.ActiveEditorJavaIntrospector;
 import org.eclipse.agents.contexts.platform.resource.ConsoleAdapter;
 import org.eclipse.agents.contexts.platform.resource.EditorAdapter;
 import org.eclipse.agents.contexts.platform.resource.WorkspaceResourceAdapter;
@@ -43,7 +44,9 @@ public class FactoryProvider implements IFactoryProvider {
 	public Object[] getAnnotatedObjects() {
 		return new Object[] {
 			new Tools(),
-			new ResourceTemplates()
+			new ResourceTemplates(),
+			new org.eclipse.agents.contexts.jdt.Tools(),
+			new ActiveEditorJavaIntrospector()
 		};
 	}
 
